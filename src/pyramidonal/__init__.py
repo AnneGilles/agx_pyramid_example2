@@ -4,6 +4,7 @@ import views
 from pyramid.config import Configurator
 from wsgiref.simple_server import make_server
 
+
 def main(global_config, **settings):
     config = Configurator()
     config.add_static_view('static', 'static_resources/',)

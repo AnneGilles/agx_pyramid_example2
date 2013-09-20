@@ -1,0 +1,7 @@
+.installed.cfg
+bin/
+demo.db
+develop-eggs/
+eggs/
+env/
+src/pyramidonal.egg-info/

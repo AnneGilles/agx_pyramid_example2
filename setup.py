@@ -1,4 +1,4 @@
-# 
+#
 
 import os
 from setuptools import (
@@ -33,6 +33,9 @@ setup(name="pyramidonal",
           'setuptools',
           'sqlalchemy',
           'z3c.saconfig',
+          'webtest',
+          'nose',
+          'coverage',
           ##code-section dependencies
           ##/code-section dependencies
       ],

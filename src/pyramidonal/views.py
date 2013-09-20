@@ -3,6 +3,7 @@ from pyramid.renderers import get_renderer
 from pyramid.response import Response
 from pyramid.view import view_config
 
+
 class ViewTemplate(object):
 
     def __init__(self, context, request):
@@ -26,7 +27,13 @@ class ViewTemplate(object):
 
     @view_config(name='persons.html', renderer='templates/persons.pt')
     def persons(self):
-        return {"page_title": "persons"}
+
+        # func goes here? or in template?
+        from .model import Person
+        persons = self.request.db.query(Person).all()
+
+        return {"page_title": "persons",
+                'members': persons}
 
     def site_menu(self):
         '''static implementation, insert your menu logic here'''
@@ -34,15 +41,17 @@ class ViewTemplate(object):
             {'href': '', 'title': 'Home'},
             {'href': 'about.html', 'title': 'About'},
             {'href': 'imprint.html', 'title': 'Imprint'},
+            {'href': 'persons.html', 'title': 'Persons'},
+            {'href': 'create_person', 'title': '+1 Persons'},
             ]
-        
+
         url = self.request.url
         for menu in new_menu:
             if menu['title'] == 'Home':
                 menu['current'] = url.endswith('/')
             else:
                 menu['current'] = url.endswith(menu['href'])
-                
+
         return new_menu
 
     @view_config(name='create_person')
@@ -50,9 +59,14 @@ class ViewTemplate(object):
         '''does some silly random person creation'''
         import random
         import model
-        firstnames = ['Donald', 'Gustav', 'Dagobert', 'Walter', 'Brian']
-        lastnames = ['Duck', 'Smith', 'Gstierbreitner']
-        pers = model.Person(firstname=random.choice(firstnames), lastname=random.choice(lastnames))
+        firstnames = [
+            'Donald', 'Gustav', 'Dagobert', 'Walter', 'Brian', 'Holger']
+        lastnames = [
+            'Duck', 'Smith', 'Gstierbreitner', 'Welanhans', 'Buschenschank']
+        pers = model.Person(
+            firstname=random.choice(firstnames),
+            lastname=random.choice(lastnames))
         self.request.db.add(pers)
-        pers.addresses.append(model.Address(city='Entenhausen', street='Erpelweg 13'))
+        pers.addresses.append(
+            model.Address(city='Entenhausen', street='Erpelweg 13'))
         return Response('Added %s %s' % (pers.firstname, pers.lastname))
