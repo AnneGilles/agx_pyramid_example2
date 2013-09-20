@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configure
+    xmlns:saconfig="http://namespaces.zope.org/db"
+    xmlns="http://namespaces.zope.org/zope">
+
+  <include package="z3c.saconfig" file="meta.zcml"/>
+
+  <saconfig:engine name="default" url="sqlite:///demo.db"/>
+
+  <saconfig:session name="default" engine="default"/>
+
+</configure>
